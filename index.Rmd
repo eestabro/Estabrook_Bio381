@@ -1,9 +1,9 @@
 ---
-title: "Initial Web Page Set Up"
+title: "Emma Estabrooks Web Page"
 author: "Emma Estabrook"
 date: "1/22/2020"
 output: html_document
 ---
 
-## Homework01
-[Typora document](Homework1.html)
+## Assignments
+[Homework 01](Homework1.html)
