@@ -1,5 +1,5 @@
 ---
-title: "Emma Estabrooks Web Page"
+title: "My Web Page"
 author: "Emma Estabrook"
 date: "1/22/2020"
 output: html_document
