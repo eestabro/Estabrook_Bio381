@@ -1,0 +1,63 @@
+---
+title: "Homework 04"
+author: "Emma Estabrook"
+date: "1/29/2020"
+output: html_document
+---
+
+# Homework 04
+## Question 1
+```
+Find: \t+   
+Replace: ,   
+```
+
+Explanation: Notepad finds areas with 1 or more tab space and replaces it with ','   
+
+## Question 2
+```
+Find:(\w+), (\w+), (.*)   
+Replace:\2 \1 \(\3\)  
+```
+Explanation: Finds and captures the first and second word, then will find and capture the rest of the line. Using the replace I can reorder the line and add () to the line.   
+
+## Question 3
+
+```
+Find:.mp3   
+Replace:.mp3\n   
+```
+
+Explanation:Finds '.mp3 ' and adds a line break after every time it finds that   
+
+## Question 4
+```
+Find:(\d\d+) (.*)(.mp3)   
+Replace:\2_\1\3   
+```
+
+Explanation:Finds and captures 1 digit and then more then 1 consecutive digit. Then finds and captures everything else. Then finds and captures .mp3. I was then able to reorder the captured sections.   
+
+## Question 5
+```
+Find: (\w)\w+,(\w+),(.*),(\d+)   
+Replace: \1_\2,\4   
+```
+
+Explanation: Finds and captures the first letter of the line, captures the second word, and captures the last number in the line. Then I was able to reorder the data set in the replace.   
+
+## Question 6
+```
+Find:(\w)\w+,(\w{4}).*,(\d+)   
+Replace:\1_\2,\3   
+```
+
+Explanation:Similar to Question 5, but I only captured the first 4 letters of the second word instead of the whole word.   
+
+## Question 7
+```
+Find:(\w+),(\w{4})(\w+),(.*),(.*)    
+Replace:\1, \5, \4   
+```
+
+Explanation: Similar to question 6, but I captured the whole first word, and captured the two numbers at the end seperately.    
