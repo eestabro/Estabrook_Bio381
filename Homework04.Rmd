@@ -1,0 +1,92 @@
+---
+title: "Homework_04"
+author: "Emma Estabrook"
+date: "2/5/2020"
+output: html_document
+---
+
+# Question 1
+
+```{r}
+x <- 1.1
+a <- 2.2
+b <- 3.3
+
+z1 <- x^a^b
+print(z1) # answer to 1.A
+
+z2 <- (x^a)^b
+print(z2) # answer to 1.B.
+
+z3 <- 3*(x)^3 + 2*(x)^2 + 1
+print(z3) # answer to 1.C
+
+
+```
+
+
+# Question 2
+
+```{r}
+c(seq(1,8), seq(7,1)) # answer to A
+c(1, rep(2,2), rep(3,3), rep(4,4), rep(5,5)) # answer to B
+c(5, rep(4,2), rep(3,3), rep(2,4), rep(1,5)) #answer to C
+
+```
+
+
+# Question 3
+
+```{r}
+x <- runif(1, min=0, max=100) # generates random number for x
+print(x)
+
+y <- runif (1, min=0, max=100) #generates random number for y
+print(y)
+
+r <- sqrt((x^2)+(y^2)) #converts one to polar coordiante
+print(r)
+
+o <- atan(y/x) #converts the other to polar coordinates
+print(o)
+
+```
+
+# Question 4
+
+```{r}
+queue <- c("sheep", "fox", "owl", "ant")
+print(queue)
+
+queue2 <- c(queue, "serpent")
+print(queue2) # answer to 4.A
+
+queue3 <- c(queue2[2:5])
+print(queue3) # answer to 4.B.
+
+queue4 <- c("donkey", queue3)
+print(queue4) # answer to 4.C.
+
+queue5 <- c(queue4[1:4])
+print(queue5) # answer to 4.D.
+
+queue6 <- c(queue5[1:2], queue5[4])
+print(queue6) # answer to 4.E.
+
+queue7 <- c(queue6[1:2], "aphid", queue6[3])
+print(queue7) # answer to 4.F.
+
+n<- which(queue7 == "aphid")
+print(n) # answer to 4.G.
+```
+
+# Question 5
+
+```{r}
+q <- seq(100)
+print(q)
+
+q1 <- q[!(!q%%2) + (!q%%3) + (!q%%7)]
+print(q1) # answer to Question 5
+
+```
