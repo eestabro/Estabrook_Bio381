@@ -12,3 +12,4 @@ output:
 [Homework 03](Homework4.html)   
 [Homework 04](Homework04.html)     
 [Homework 05](Homework05.html)    
+[Homework 06](Homework06.html)
