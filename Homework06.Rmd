@@ -141,4 +141,6 @@ print(p1)
 ```
 
 ## Write Up
-I think the model did a good job at simulating the real data which was surprising for me. Having only 11 collections with none of the curves lining up super well, I was expecting the simulation to fail. It is doing a good job because of the high density bar. 
+```{r}
+#I think the model did a good job at simulating the real data which was surprising for me. Having only 11 collections with none of the curves lining up super well, I was expecting the simulation to fail. It is doing a good job because of the high density bar. 
+```
