@@ -1,0 +1,45 @@
+---
+title: "Homework 07"
+author: "Emma Estabrook"
+date: "2/26/2020"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+# Code Chunks
+```{r}
+library(ggplot2)
+
+nGroup <- 3
+nName <- c("Control","Treatment_Pre","Treatment_Post")
+Control <- rnorm(n=6,mean=5.0,sd=2) # control and treatment_pre would in theory have the same (or similar average erosion rate
+Treatment_Pre <- rnorm(n=3,mean=5.0,sd=2)
+Treatment_Post <- rnorm(n=3,mean=2.0,sd=2) # treatment_post would have a low erosion rate since it is after mitigation is put in
+nSize <- c(6,3,3)
+```
+```
+My initial fake dataset had a range of P values with Five out of eight runs resulting in significant results. Some P values were quite high (0.539) which reduces my confidence in these results. 
+
+The mean for Treatment_Post will be lower than Control or Treatment because in theory less erosion will occur at sites where erosion mitigation is placed. The effect size of control and treatment_pre can be the same and still have mostly significant results. The smallest effect size between control/treatment_pre and treatment_post is 3.0. 
+
+My sample size is very small to begin with which lowers my confidence in results. This test is on the high range of surveys I will do at each site and I was still getting some insignificant P values on some runs. The current nSize variable is the smallest I would go. 
+```
+```{r}
+ID <- 1:(sum(nSize))
+Erosion_Rate <- c(Control,
+            Treatment_Pre,
+            Treatment_Post)
+Treatment <- rep(nName, nSize)
+ANOdata <- data.frame(ID,Treatment,Erosion_Rate)
+str(ANOdata)
+
+ANOmodel <- aov(Erosion_Rate~Treatment,data=ANOdata)
+z <- summary(ANOmodel)
+print(z)
+```
+```{r}
+ANOPlot <- ggplot(data=ANOdata,aes(x=Treatment,y=Erosion_Rate,fill=Treatment))+
+          geom_boxplot()
+print(ANOPlot)
+```
+
