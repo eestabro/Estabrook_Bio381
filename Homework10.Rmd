@@ -1,0 +1,223 @@
+---
+title: "Homework10"
+author: "Emma Estabrook"
+date: "4/1/2020"
+output: html_document
+---
+# Questions 1 - 3
+```{r}
+# ------------------------------------------------
+# FUNCTION CalcZeros
+# description: calculate the number of zeros in a numeric vector
+# inputs: numeric vector matrix
+# outputs: counter that has the total number of zeros in the input
+##################################################
+CalcZeros <- function(my_vec = c(7,1,4,0,5,8,0,9,0)) {
+
+  counter <- 0
+  
+  for (i in my_vec) {
+    if (i != 0) next
+    counter <- counter + 1
+  } # end of for loop
+
+return(counter)
+
+} # end of function CalcZeros
+# ------------------------------------------------
+#CalcZeros()
+
+# ------------------------------------------------
+# FUNCTION CalcZeros_Subset
+# description: calculate the number of zeros using subset
+# inputs: numeric vector matrix
+# outputs: The total number of zeros in the input
+##################################################
+CalcZeros_Subset <- function(my_vec = c(7,1,4,0,5,8,0,9,0)) {
+ 
+  new_vec <- subset(my_vec, my_vec == 0)
+  
+return(new_vec)
+
+} # end of function CalcZeros_Subset
+# ------------------------------------------------
+#CalcZeros_Subset()
+
+# ------------------------------------------------
+# FUNCTION matrix_math
+# description: Takes two integers representing the number of rows and columns in a matrix and the output is the product of the row number and column number
+# inputs: x = number of rows
+#         y = number of columns
+# outputs: product of the row number and column number
+##################################################
+matrix_math <- function(m=matrix(runif(25),nrow=5)) {
+   for (i in 1:nrow(m)) {
+      for (j in 1:ncol(m)) {
+        m[i,j] <- i * j
+      }
+    }
+
+return(m)
+} # end of function matrix_math
+#matrix_math()
+# ------------------------------------------------
+
+```
+# Question 4
+```{r}
+# Preliminaries
+library(ggplot2)
+
+set.seed(100)
+
+# Read in Data
+###################################################
+# function: readData
+# read in (or generate) data set for analysis
+# input: file name (or nothing, for this demo)
+# output: 3 column data frame of observed data (ID,x,y)
+#------------------------------------------------- 
+readData <- function(z=NULL) {
+                if(is.null(z)){
+                  xObs <- 1:20
+                  yObs <- xObs + 10*rnorm(20)
+                  dF <- data.frame(ID=seq_along(xObs),xObs,yObs)} # set up data frame                 
+  dF <-read.table(file=z,row.names=1,header=TRUE,sep=",",stringsAsFactors=FALSE)
+# print(qplot(x=xObs,y=yObs)) # peek at input data
+return(dF)
+}
+#----------------------------------------------------
+#dF <- readData("Survey_Simulation.csv")
+#print(dF)
+#----------------------------------------------------
+# Calculate Metric
+##################################################
+# function: getMetric
+# calculate metric for randomization test
+# input: 2-column data frame for regression
+# output: regression slope
+#------------------------------------------------- 
+getMetric <- function(z=NULL) {
+                if(is.null(z)){
+                  xObs <- 1:20
+                  yObs <-  xObs + 10*rnorm(20)
+                  z <- data.frame(ID=seq_along(xObs),xObs,yObs)} # set up data frame                 
+. <- lm(z[,2]~z[,1])
+. <- summary(.)
+. <- .$coefficients[2,1]
+
+slope <- .
+return(slope)
+}
+#-----------------------------------------------------
+#getMetric(dF)
+#-----------------------------------------------------
+# Create Randomization
+##################################################
+# function: shuffleData
+# randomize data for regression analysis
+# input: 3-column data frame (ID,xVar,yVar)
+# output: 3-column data frame (ID,xVar,yVar)
+#------------------------------------------------- 
+shuffleData <- function(z=NULL) {
+                if(is.null(z)){
+                  xObs <- 1:20
+                  yObs <- xObs + 3*rnorm(20)
+                  z <- data.frame(ID=seq_along(xObs),xObs,yObs)} # set up data frame                 
+z[,2] <- sample(z[,2]) # use sample function with defaults to reshuffle column
+
+return(z)
+}
+#---------------------------------------------------------
+#shuffleData(dF)
+#---------------------------------------------------------
+# Calculate P Value from simulated metrics
+##################################################
+# function: getPVal
+# calculate p value from simulation
+# input: list of observed metric, and vector of simulated metrics
+# output: lower, upper tail probability values
+#------------------------------------------------- 
+getPVal <- function(z=NULL) {
+                    if(is.null(z)){
+                      z <- list(xObs=runif(1),xSim=runif(1000))}
+                      pLower <- mean(z[[2]]<=z[[1]])
+                      pUpper <- mean(z[[2]]>=z[[1]])
+return(c(pL=pLower,pU=pUpper))
+}
+
+# Create histogram of simulated and observed metric
+##################################################
+# function: plotRanTest
+# create ggplot of histogram of simulated values
+# input: list of observed metric and vector of simulated metrics
+# output: saved ggplot graph
+#------------------------------------------------- 
+plotRanTest <- function(z=NULL) {
+                if(is.null(z)){
+                  z <- list(rnorm(1),rnorm(1000)) }
+dF <- data.frame(ID=seq_along(z[[2]]),simX=z[[2]])
+p1 <- ggplot(data=dF,mapping=aes(x=simX))
+p1 + geom_histogram(mapping=aes(fill=I("goldenrod"),color=I("black"))) +
+geom_vline(aes(xintercept=z[[1]],col="blue")) 
+
+}
+
+# Program Body-------------------------------------
+
+nSim <- 1000
+Xsim <- rep(NA,nSim) # vector of simulated slopes
+dF <- readData("Survey_Sim.csv")
+Xobs <- getMetric(dF)
+
+for (i in seq_len(nSim)) {
+Xsim[i] <- getMetric(shuffleData(dF))
+}
+
+slopes <- list(Xobs,Xsim)
+getPVal(slopes)
+
+plotRanTest(slopes)
+```
+# Question 5
+```{r}
+# Set Up -----------------------------
+
+library(tidyverse)
+
+dF <- readData("Survey_Sim.csv")
+
+# Regression Analysis -----------------------------
+# model
+regModel <- lm(dF[,2]~dF[,1], data=dF)
+
+# model output
+str(regModel)
+head(regModel)$coefficients
+str(summary(regModel))
+
+# examine matrix of coefficients
+z <- unlist(summary(regModel))
+str(z)
+
+# put what we need in list
+regSum <- list(intercept=z$coefficients1,
+               slope=z$coefficients2,
+               interceptP=z$coefficients7,
+               slopeP=z$coefficients8,
+               r2=z$r.squared)
+print(regSum)
+
+# GGPlot of Regression Model -----------------------------
+regPlot <- ggplot(data=dF, aes(x=dF[,2], y=dF[,1])) +
+                    geom_point() +
+                    stat_smooth(method=lm,se=0.95)
+print(regPlot)
+```
+```{r}
+#P Value 1: 0.001
+#P Value 2: 2.47e-07
+
+#The p values calculated from my data and randomized test are fairly similar. The value from my data is extremely small, but the randomized value is also very small at 0.001.
+```
+
