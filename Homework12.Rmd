@@ -1,0 +1,75 @@
+---
+title: "Homework12"
+author: "Emma Estabrook"
+date: "4/22/2020"
+output: html_document
+---
+```{r}
+# ------------------------------------------------
+# Homework 12
+# 22 Apr 2020
+# ELE
+# ------------------------------------------------
+#
+# Preliminaries ----------------------------------
+library(ggplot2)
+library(ggthemes)
+library(patchwork)
+library(grid)
+#--------------------------------------------------
+##################################################
+# Load Data ---------------------------------------
+data_csv <- read.csv("DrainageArea_Volumes.csv",
+                     header=TRUE)
+df <- data.frame(data_csv)
+print(df)
+##################################################
+# Drainage Area and Volume Plot -----------------------------
+ano1 <- grobTree(textGrob("This plot shows the volume of gully in relation \n to drainage area. It also displays if its a open \n or closed drainage system", 
+                          x=0.25, 
+                          y=0.8,
+                          hjust=0,
+                          gp=gpar(col="firebrick",
+                                  fontsize=10)))
+p1 <- ggplot(data=df,
+             mapping=aes(x=DrainageArea, 
+                         y=Volume, 
+                         shape=OpenClosed)) +
+      geom_point(size=4) +
+      theme_base(base_size = 10) +
+      labs(x= "Drainage Area (km^2)",
+           y= "Volume (m^3)",
+           shape= "Drainage Type") +
+      xlim(0,0.25) + ylim(0,500) +
+      annotation_custom(ano1)
+print(p1)
+
+# Slope and Volume Plot -------------------------------------
+ano2 <- grobTree(textGrob("This plot shows the volume of gully in relation \n to slope. It also displays what hydrologic soil \n group the drainage area is.", 
+                          x=0.2, 
+                          y=0.8,
+                          hjust=0,
+                          gp=gpar(col="firebrick",
+                                  fontsize=10)))
+p2 <- ggplot(data=df,
+             mapping=aes(x=Slope,
+                         y=Volume,
+                         shape=HydroSoil)) +
+      geom_point(size=4) +
+      theme_base(base_size = 10) +
+      labs(x= "Slope (%)",
+           y= "Volume (m^3)",
+           shape= "Hydrologic Soil Group") +
+      xlim(0,35) + ylim(0,500)+
+      annotation_custom(ano2)
+print(p2)
+
+# Exporting Plots with ggsave -----------------------------
+p3 <- p1 / p2 + 
+   plot_annotation("Site Information in Relation to Gully Volume", 
+                   caption= "By: Emma Estabrook",
+                   theme= theme(plot.title=element_text(size=16)),
+                   tag_levels = "A")
+print(p3)
+ggsave("SiteCharacteristics.pdf", width = 20, height = 20, units = "cm")
+```

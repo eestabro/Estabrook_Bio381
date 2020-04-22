@@ -1,8 +1,8 @@
 # Summary stats for batch processing of regression models
-# timestamp: 2020-04-15 15:42:18
+# timestamp: 2020-04-22 14:45:26
 # ELE
 # ------------------------
 
 "ID","fileName","slope","pVal","r2"
 1,"DrainageArea_Volumes.csv",-0.000234426388627167,0.848585122831646,0.00801908508823039
-2,"Slope_Volumes.csv",4.57894910066319,0.565725101480256,0.0890251119286236
+2,"Slope_Volumes.csv",0.0194422584683743,0.565725101480256,0.0890251119286236
